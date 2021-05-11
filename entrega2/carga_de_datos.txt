@@ -1,0 +1,26 @@
+--Proceso de carga de información--
+
+copy incidente(codigo, tipo)
+from '/Users/camilotejada/Documents/GitHub/bases_de_datos/entrega2/incidente.csv'
+delimiter ';'
+csv header;
+
+copy detalle_incidente(codigo_incidente, detalle)
+from '/Users/camilotejada/Documents/GitHub/bases_de_datos/entrega2/detalle_incidente.csv'
+delimiter ';'
+csv header;
+
+copy upz(id, nombre, id_localidad)
+from '/Users/camilotejada/Documents/GitHub/bases_de_datos/entrega2/upz.csv'
+delimiter ';'
+csv header;
+
+copy localidad(id, nombre)
+from '/Users/camilotejada/Documents/GitHub/bases_de_datos/entrega2/localidad.csv'
+delimiter ';'
+csv header;
+
+copy llamada(id, anio, mes, acumulado_incidentes, codigo_incidente, id_upz)
+from '/Users/camilotejada/Documents/GitHub/bases_de_datos/entrega2/llamada.csv'
+delimiter ';'
+csv header;
