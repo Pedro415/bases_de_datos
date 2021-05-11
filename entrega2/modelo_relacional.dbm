@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1.25" max-obj-count="6"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="3,0" last-zoom="1.25" max-obj-count="6"
 	 default-schema="public" default-owner="postgres">
 <database name="new_database" is-template="false" allow-conns="true">
 </database>
@@ -18,7 +18,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="codigo" not-null="true">
 		<type name="varchar" length="15"/>
 	</column>
-	<column name="tipo">
+	<column name="tipo" not-null="true">
 		<type name="varchar" length="45"/>
 	</column>
 	<constraint name="incidente_pk" type="pk-constr" table="public.incidente">
@@ -26,61 +26,68 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="llamada" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
+<table name="llamada" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="300" y="260"/>
 	<column name="id" not-null="true">
 		<type name="varchar" length="45"/>
 	</column>
-	<column name="anio">
+	<column name="anio" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="mes">
+	<column name="mes" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="acumulado_incidentes" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
 	<constraint name="llamada_pk" type="pk-constr" table="public.llamada">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="codigo_incidente" index="4"/>
+		<object name="id_upz" index="5"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="incidente_fk" index="1"/>
+		<object name="upz_fk" index="2"/>
+	</customidxs>
 </table>
 
-<table name="localidad" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+<table name="localidad" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="600" y="380"/>
 	<column name="id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="nombre">
+	<column name="nombre" not-null="true">
 		<type name="varchar" length="45"/>
-	</column>
-	<column name="total_habitantes">
-		<type name="integer" length="0"/>
 	</column>
 	<constraint name="localidad_pk" type="pk-constr" table="public.localidad">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<table name="upz" layer="0" collapse-mode="2" max-obj-count="4" z-value="0">
+<table name="upz" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="600" y="20"/>
+	<position x="560" y="20"/>
 	<column name="id" not-null="true">
 		<type name="varchar" length="15"/>
 	</column>
-	<column name="nombre">
+	<column name="nombre" not-null="true">
 		<type name="varchar" length="45"/>
-	</column>
-	<column name="total_habitantes">
-		<type name="smallint" length="0"/>
 	</column>
 	<constraint name="upz_pk" type="pk-constr" table="public.upz">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="id_localidad" index="3"/>
+		<object name="id_localidad" index="2"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -92,8 +99,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="20" y="440"/>
-	<column name="detalle">
-		<type name="varchar" length="500"/>
+	<column name="detalle" not-null="true">
+		<type name="varchar" length="1650"/>
 	</column>
 
 	<customidxs object-type="column">
@@ -119,32 +126,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</label>
 </relationship>
 
-<relationship name="definicion_incidente_has_one_incidente" type="rel11" layer="0"
-	 src-col-pattern="{sc}_{st}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#039d6f"
-	 src-table="public.incidente"
-	 dst-table="public.detalle_incidente"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="-2.11951" y="13.6677"/>
-	</label>
-</relationship>
-
-<relationship name="upz_has_many_llamada" type="rel1n" layer="0"
-	 src-col-pattern="{sc}_{st}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#b4096a"
-	 src-table="public.upz"
-	 dst-table="public.llamada"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="34.285" y="-52.3807"/>
-	</label>
-</relationship>
-
 <relationship name="localidad_has_many_upz" type="rel1n" layer="0"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
@@ -160,5 +141,23 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<position x="-4.10765" y="3.26774"/>
 	</label>
 </relationship>
+
+<relationship name="detalle_incidente_has_one_incidente" type="rel11" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#0b0495"
+	 src-table="public.incidente"
+	 dst-table="public.detalle_incidente"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="upz_has_many_llamada" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f5c138"
+	 src-table="public.upz"
+	 dst-table="public.llamada"
+	 src-required="false" dst-required="false"/>
 
 </dbmodel>
