@@ -16,12 +16,11 @@ def consulta3():
            "where llam.anio = 2020 group by mes"
 
 def consulta4():
-    return "select upz.nombre, sum(llam.acumulado_incidentes) as total " \
-            "from upz join llamada llam on (upz.id = llam.id_upz) " \
-            "join incidente inc on (llam.codigo_incidente = inc.codigo) " \
-            "where upz.nombre!='SIN LOCALIZACION' and " \
-            "inc.tipo = 'ATRACO / HURTO EN PROCESO' or inc.tipo = 'HURTO EFECTUADO' " \
-            "group by upz.nombre order by total desc"
+    return "select localidad.nombre, sum(llam.acumulado_incidentes) as total " \
+           "from localidad join upz on (upz.id_localidad = localidad.id) join llamada llam on (upz.id = llam.id_upz) " \
+           "join incidente inc on (llam.codigo_incidente = inc.codigo) " \
+           "where upz.nombre!='SIN LOCALIZACION' and inc.tipo = 'ATRACO / HURTO EN PROCESO' or inc.tipo = 'HURTO EFECTUADO' " \
+           "group by localidad.nombre, upz.nombre order by total desc"
 
 import psycopg2
 
